@@ -5,7 +5,10 @@ function Derpy(pony)
     Derpy.pony = pony || "derpy";
     Derpy.oldaction = Derpy.action = (Derpy.pony=="twi")?"idle":"stand";
     Derpy.oldposition = Derpy.position = "right";
-    Derpy.ijdkwww = new Audio("img/wrong.mp3");
+    var scripts = document.getElementsByTagName("script");
+    var currentScript = document.currentScript?document.currentScript.src:scripts[scripts.length-1].src;
+    Derpy.pwd = currentScript.substring(0,currentScript.lastIndexOf("/")+1);
+    Derpy.ijdkwww = new Audio(Derpy.pwd+"img/wrong.mp3");
     Derpy.img = null;
 
 Derpy.loadScript = function(url, callback)
@@ -69,8 +72,8 @@ Derpy.loop = function()
 		}
 	}
 	if(Derpy.oldaction != Derpy.action || Derpy.oldposition != Derpy.position)
-		if(Derpy.pony == "twi") Derpy.img.attr("src", "img/p-twi-"+Derpy.action+"-"+Derpy.position+".gif");
-		else Derpy.img.attr("src", "img/derpy_"+Derpy.action+"_"+Derpy.position+".gif");
+		if(Derpy.pony == "twi") Derpy.img.attr("src", Derpy.pwd+"img/p-twi-"+Derpy.action+"-"+Derpy.position+".gif");
+		else Derpy.img.attr("src", Derpy.pwd+"img/derpy_"+Derpy.action+"_"+Derpy.position+".gif");
 	Derpy.oldaction = Derpy.action;
 	Derpy.oldposition = Derpy.position;
 }
@@ -79,7 +82,7 @@ Derpy.load = function()
 {
     Derpy.posy = jQuery(window).height()-97;
     var fps = 60;
-    Derpy.img = jQuery(document.createElement('img')).attr("src", (Derpy.pony=="twi")?"img/p-twi-idle-right.gif":"img/derpy_stand_right.gif");
+    Derpy.img = jQuery(document.createElement('img')).attr("src", (Derpy.pony=="twi")?Derpy.pwd+"img/p-twi-idle-right.gif":Derpy.pwd+"img/derpy_stand_right.gif");
     jQuery("body").append(Derpy.img);
     Derpy.img.css("position", "fixed")
 	.css("top", jQuery(window).height()-97)
